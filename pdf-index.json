@@ -1,0 +1,17 @@
+---
+layout: null
+---
+{%- assign separator = '' -%}
+[
+{%- for file in site.static_files -%}
+  {%- assign path = file.path | remove_first: '/' -%}
+  {%- assign parts = path | split: '/' -%}
+  {%- assign extension = file.extname | downcase -%}
+  {%- if parts[0] == 'documents' and extension == '.pdf' -%}
+    {%- if parts[1] == 'analysis' or parts[1] == 'portfolio' -%}
+      {{- separator -}}{{- path | jsonify -}}
+      {%- assign separator = ',' -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+]

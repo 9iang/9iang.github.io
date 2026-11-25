@@ -1,62 +1,66 @@
 const resume = window.RESUME;
+const documentCollections = ["analysis", "portfolio"];
+const fileOrder = new Intl.Collator("zh-CN", { numeric: true, sensitivity: "base" });
 
 function setText(id, value) {
   document.getElementById(id).textContent = value;
 }
 
-function cloudUrl(value) {
+async function loadPdfIndex() {
+  if (location.protocol === "file:") return window.LOCAL_PDF_FILES;
+
   try {
-    const url = new URL(value);
-    return ["https:", "http:"].includes(url.protocol) ? url.href : "";
+    const response = await fetch("./pdf-index.json", { cache: "no-cache" });
+    if (!response.ok) return null;
+    const files = await response.json();
+    return Array.isArray(files) ? files : null;
   } catch {
-    return "";
+    return null;
   }
 }
 
-function renderCollection(key) {
-  const section = resume[key];
-  setText(`${key}-title`, section.title);
-  setText(`${key}-nav`, section.title);
+function renderCollection(key, files) {
   const list = document.getElementById(`${key}-documents`);
+  const folder = `documents/${key}/`;
+  const documents = files?.filter(file =>
+    typeof file === "string" && file.startsWith(folder) && /\.pdf$/i.test(file)
+  ).sort(fileOrder.compare) ?? [];
 
-  if (!section.items.length) {
+  if (!documents.length) {
     const empty = document.createElement("li");
     empty.className = "empty-documents";
-    empty.textContent = "暂无文档";
+    empty.textContent = files ? "暂无 PDF" : "暂时无法读取 PDF 列表";
     list.append(empty);
   }
 
-  for (const item of section.items) {
-    const href = cloudUrl(item.url);
+  for (const file of documents) {
+    const segments = file.split("/");
+    const name = segments.at(-1).slice(0, -4);
     const entry = document.createElement("li");
-    const row = document.createElement(href ? "a" : "div");
+    const row = document.createElement("a");
     row.className = "document-row";
-
-    if (href) {
-      row.href = href;
-      row.target = "_blank";
-      row.rel = "noopener noreferrer";
-    }
+    row.href = `./${segments.map(encodeURIComponent).join("/")}`;
 
     const icon = document.createElement("span");
     icon.className = "document-icon";
     icon.setAttribute("aria-hidden", "true");
     const title = document.createElement("span");
     title.className = "document-title";
-    title.textContent = item.title;
-    const status = document.createElement("span");
-    status.className = "document-status";
-    status.textContent = href ? "打开文档" : "待添加链接";
-    if (href) status.setAttribute("aria-label", "在新标签页打开文档");
-    row.append(icon, title, status);
+    title.textContent = name;
+    title.title = name;
+    const format = document.createElement("span");
+    format.className = "document-format";
+    format.textContent = "PDF";
+    row.append(icon, title, format);
     entry.append(row);
     list.append(entry);
   }
+
+  if (list.scrollHeight > list.clientHeight) list.tabIndex = 0;
 }
 
 const title = resume.siteTitle || "个人简历";
 document.title = title;
-setText("site-title", title);
 setText("footer-name", title);
 setText("profile-name", resume.name);
 setText("intro-name", resume.name);
@@ -70,6 +74,13 @@ if (resume.photo) {
   photo.alt = `${resume.name}的照片`;
   photo.addEventListener("load", () => portrait.replaceChildren(photo), { once: true });
   photo.src = resume.photo;
+}
+
+if (resume.education) {
+  setText("education-school", resume.education.school);
+  setText("education-program", resume.education.program);
+  setText("education-period", resume.education.period);
+  document.getElementById("education-section").hidden = false;
 }
 
 const skills = document.getElementById("skills");
@@ -99,5 +110,7 @@ for (const [key, label] of [["wechat", "微信"], ["qq", "QQ"], ["email", "邮�
   contacts.append(term, detail);
 }
 
-renderCollection("analysis");
-renderCollection("portfolio");
+for (const key of documentCollections) setText(`${key}-title`, resume[key].title);
+loadPdfIndex().then(files => {
+  for (const key of documentCollections) renderCollection(key, files);
+});
