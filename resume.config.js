@@ -18,7 +18,7 @@ window.RESUME = {
     "email": "2716899575@qq.com"
   },
   "analysis": {
-    "title": "游戏体验拆解",
+    "title": "若有所思",
     "items": [
       {
         "title": "测试",
@@ -27,7 +27,7 @@ window.RESUME = {
     ]
   },
   "portfolio": {
-    "title": "作品集介绍",
+    "title": "个人作品",
     "items": [
       {
         "title": "测试",
