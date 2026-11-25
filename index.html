@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人介绍、游戏体验拆解和设计作品集。">
+  <meta name="theme-color" content="#f3f5fa">
+  <title>个人简历</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./resume.config.js" defer></script>
+  <script src="./resume.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#intro">跳到个人介绍</a>
+  <header class="site-header">
+    <div class="site-width header-inner">
+      <a class="brand" href="#top"><span class="brand-icon" aria-hidden="true"></span><span id="site-title">个人简历</span></a>
+      <nav aria-label="页面导航">
+        <a href="#intro">个人介绍</a>
+        <a href="#analysis" id="analysis-nav">游戏体验拆解</a>
+        <a href="#portfolio" id="portfolio-nav">作品集介绍</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-width layout">
+    <aside class="sidebar" aria-label="个人资料">
+      <div class="side-card">
+        <div class="portrait" id="portrait">
+          <span class="portrait-placeholder"><i aria-hidden="true"></i>个人照片</span>
+        </div>
+        <div class="identity">
+          <p class="profile-name" id="profile-name"></p>
+          <p class="profile-role" id="profile-role"></p>
+        </div>
+        <section class="side-section" id="skills-section" aria-labelledby="skills-heading">
+          <h2 id="skills-heading">个人技能</h2>
+          <ul class="skills" id="skills"></ul>
+        </section>
+        <section class="side-section" id="contact-section" aria-labelledby="contact-heading">
+          <h2 id="contact-heading">联系方式</h2>
+          <dl class="contacts" id="contacts"></dl>
+        </section>
+        <a class="download" id="download" href="./assets/resume.pdf" download="个人简历-示例.pdf">
+          <span class="download-icon" aria-hidden="true"></span>
+          <span>下载个人简历</span><span class="file-type">PDF</span>
+        </a>
+      </div>
+    </aside>
+
+    <section class="intro" id="intro" aria-labelledby="intro-title">
+      <div class="hero-art" aria-hidden="true"></div>
+      <div class="intro-content">
+        <p class="intro-label">个人介绍</p>
+        <h1 id="intro-title">你好，我是<span class="intro-name" id="intro-name"></span></h1>
+        <p class="bio" id="bio"></p>
+      </div>
+    </section>
+
+    <div class="collections" aria-label="作品与文档">
+      <section class="collection" id="analysis" aria-labelledby="analysis-title">
+        <header class="collection-header">
+          <span class="collection-icon analysis-icon" aria-hidden="true"></span>
+          <h2 id="analysis-title">游戏体验拆解</h2>
+        </header>
+        <ul class="documents" id="analysis-documents"></ul>
+      </section>
+      <section class="collection portfolio" id="portfolio" aria-labelledby="portfolio-title">
+        <header class="collection-header">
+          <span class="collection-icon portfolio-icon" aria-hidden="true"></span>
+          <h2 id="portfolio-title">作品集介绍</h2>
+        </header>
+        <ul class="documents" id="portfolio-documents"></ul>
+      </section>
+    </div>
+
+    <noscript>请启用 JavaScript，以查看个人资料和云文档链接。</noscript>
+  </main>
+
+  <footer class="site-width footer">
+    <span id="footer-name">个人简历</span>
+    <a href="#top">回到顶部</a>
+  </footer>
+</body>
+</html>
