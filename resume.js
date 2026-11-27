@@ -3,7 +3,8 @@ const documentCollections = ["analysis", "portfolio"];
 const fileOrder = new Intl.Collator("zh-CN", { numeric: true, sensitivity: "base" });
 
 function setText(id, value) {
-  document.getElementById(id).textContent = value;
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
 }
 
 async function loadPdfIndex() {
